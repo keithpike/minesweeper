@@ -5,8 +5,8 @@
     this.height = height;
     this.width = width;
     this.tiles = generateBoard(height, width);
+    this.generateDisplayBoard();
     this.bombCount = this.generateBombs();
-    
   };
   
   function generateBoard(height, width){
@@ -19,6 +19,21 @@
     }
     return multiDimensionalArray;
   }
+  
+  Board.prototype.generateDisplayBoard = function(){
+    var container = document.getElementById('gameContainer');
+    debugger
+    for (var i = 0; i < this.tiles.length; i++){
+      var row = this.tiles[i];
+      for(var j = 0; j < row.length; j++){
+        container.appendChild(row[j].mark);
+      }
+      var rowEnd = document.createElement("div");
+      rowEnd.setAttribute('class', 'rowEnd');
+      container.appendChild(rowEnd);
+    }
+    true;
+  };
   
   Board.prototype.generateBombs = function(){
     var totalBombs = Math.round(this.height * this.width * 0.15);
@@ -33,9 +48,7 @@
   };
   
   Board.prototype.setBombs = function(placements){
-    debugger
     for(var i = 0; i < placements.length; i++){
-      
       this.tiles[placements[i][0]][placements[i][1]].setBomb();
     }
   };
@@ -43,6 +56,62 @@
   function getRand(num){
     return Math.floor(Math.random() * num);
   }
+  
+  
+  Board.prototype.neighbors = function(position){
+    var first = position[0];
+    var last = position[1];
+    
+    var neightborsPos = [
+      [first - 1], [last - 1],
+      [first - 1, last],
+      [first - 1, last + 1],
+      [first, last - 1],
+      [first, last + 1],
+      [first + 1, last - 1],
+      [first + 1, last],
+      [first + 1, last + 1]
+    ].select(this.onBoard);
+    
+    neighborsPos = neighborsPos.select(this.onBoard);
+    
+    Array.prototype.select = function(check){
+      var selectedItems = []
+      for(var i = 0; i < this.length; i++){
+        if(check(this[i])){
+          selectedItems.push(this[i]);
+        }
+      }
+      return selectedItems;
+    };
+    
+  };
+
+  // def neighbors(pos)
+  //     first, last = pos
+  //     neighbors_pos = [[first - 1, last - 1],
+  //                      [first - 1, last],
+  //                      [first - 1, last + 1],
+  //                      [first, last - 1],
+  //                      [first, last + 1],
+  //                      [first + 1, last - 1],
+  //                      [first + 1, last],
+  //                      [first + 1, last + 1]
+  //                     ]
+  //     neighbors_pos.select { |position| on_board?(position) }
+  //   end
+  
+  
+  // Board.prototype.display = function(){
+  //   var container = document.getElementById('gameContainer');
+  //   debugger
+  //   for(var i = 0; i < this.tiles.length; i++){
+  //     var row = this.tiles[i];
+  //     for(var j = 0; j < row.length; j++){
+  //       container.setAttribute(row[j].mark);      
+  //     }
+  //   }
+  // };
   
 })(this);
 // 

@@ -5,7 +5,8 @@
     this.bomb = false;
     this.flagged = false;
     this.revealed = false;
-    this.mark = "";
+    this.mark = document.createElement('div');
+    this.mark.setAttribute('class', 'tile concealed');
   };
   
   Tile.prototype.setBomb = function(){
@@ -20,8 +21,8 @@
     this.revealed = true;
   };
   
-  Tile.prototype.setMark = function(picUrl){
-    this.mark = picUrl;
+  Tile.prototype.setMark = function(classString){
+    this.mark = "tile " + classString;
   };
   
   Tile.prototype.isBomb = function(){

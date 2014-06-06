@@ -1,0 +1,77 @@
+
+body{
+  width: 100%;
+}
+#gameContainer{
+  padding-top: 30px;
+  margin: 0 auto;
+  width: 480px;
+}
+
+.tile{
+  background-image: url('icons.gif');
+  float: left;
+  height: 16px;
+  width: 16px;
+}
+
+.rowEnd{
+  float: clear;
+  height: 16px;
+}
+
+.flagged{
+  background-position: -16px -39px;
+}
+
+.bomb{
+  background-position: -64px -39px;
+}
+
+.incorrectFlag{
+  background-position: -48px -39px;
+}
+
+.activatedBomb{
+  background-position: -32px -39px;
+}
+
+.concealed{
+  background-position: 0px -39px;
+}
+
+.revealed{
+  background-position: 0px -23px;
+}
+
+.revealed-1{
+  background-position: -16px -23px;
+}
+
+.revealed-2{
+  background-position: -32px -23px;
+}
+
+.revealed-3{
+  background-position: -48px -23px;
+}
+
+.revealed-4{
+  background-position: -64px -23px;
+}
+
+.revealed-5{
+  background-position: -80px -23px;
+}
+
+.revealed-6{
+  background-position: -96px -23px;
+}
+
+.revealed-7{
+  background-position: -112px -23px;
+}
+
+.revealed-8{
+  background-position: -128px -23px;
+}
