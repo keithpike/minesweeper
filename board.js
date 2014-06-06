@@ -7,6 +7,7 @@
     this.tiles = generateBoard(height, width);
     this.generateDisplayBoard();
     this.bombCount = this.generateBombs();
+    this.neighbors([2,5])
   };
   
   function generateBoard(height, width){
@@ -22,7 +23,6 @@
   
   Board.prototype.generateDisplayBoard = function(){
     var container = document.getElementById('gameContainer');
-    debugger
     for (var i = 0; i < this.tiles.length; i++){
       var row = this.tiles[i];
       for(var j = 0; j < row.length; j++){
@@ -61,7 +61,7 @@
   Board.prototype.neighbors = function(position){
     var first = position[0];
     var last = position[1];
-    
+    debugger
     var neightborsPos = [
       [first - 1], [last - 1],
       [first - 1, last],
@@ -73,19 +73,29 @@
       [first + 1, last + 1]
     ].select(this.onBoard);
     
-    neighborsPos = neighborsPos.select(this.onBoard);
-    
-    Array.prototype.select = function(check){
-      var selectedItems = []
-      for(var i = 0; i < this.length; i++){
-        if(check(this[i])){
-          selectedItems.push(this[i]);
-        }
-      }
-      return selectedItems;
-    };
-    
   };
+    
+  Array.prototype.select = function(check){
+    debugger
+    var selectedItems = []
+    for(var i = 0; i < this.length; i++){
+      if(check(this[i])){
+        selectedItems.push(this[i]);
+      }
+    }
+    return selectedItems;
+  };
+  
+  function onBoard(position){
+    if(position[0] >= 0 && position[0] < this.width && position[1] >= 0 && position[1] < this.height){
+      return true
+    }
+    return false
+  }
+  
+    // def on_board?(pos)
+  //     (0...@height).cover?(pos.first) && (0...@width).cover?(pos.last)
+  //   end
 
   // def neighbors(pos)
   //     first, last = pos
