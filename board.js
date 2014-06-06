@@ -88,9 +88,9 @@
   
   function onBoard(position){
     if(position[0] >= 0 && position[0] < this.width && position[1] >= 0 && position[1] < this.height){
-      return true
+      return true;
     }
-    return false
+    return false;
   }
   
     // def on_board?(pos)
