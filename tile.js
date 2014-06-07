@@ -22,11 +22,11 @@
   };
   
   Tile.prototype.setMark = function(classString){
-    this.mark = "tile " + classString;
+    this.mark.setAttribute('class', "tile " + classString);
   };
   
   Tile.prototype.isBomb = function(){
-   this.bomb; 
+   return this.bomb; 
   };
   
 })(this);

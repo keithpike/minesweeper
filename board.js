@@ -7,7 +7,13 @@
     this.tiles = generateBoard(height, width);
     this.generateDisplayBoard();
     this.bombCount = this.generateBombs();
-    this.neighbors([2,5])
+    this.neighbors([0,5]);
+    this.revealTile([1,1]);
+    this.revealTile([3,3]);
+    this.revealTile([5,5]);
+    this.revealTile([7,7]);
+    this.revealTile([9,9]);
+    this.revealTile([11,11]);
   };
   
   function generateBoard(height, width){
@@ -61,9 +67,8 @@
   Board.prototype.neighbors = function(position){
     var first = position[0];
     var last = position[1];
-    debugger
-    var neightborsPos = [
-      [first - 1], [last - 1],
+    var neighborsPos = [
+      [first - 1, last - 1],
       [first - 1, last],
       [first - 1, last + 1],
       [first, last - 1],
@@ -71,13 +76,12 @@
       [first + 1, last - 1],
       [first + 1, last],
       [first + 1, last + 1]
-    ].select(this.onBoard);
-    
+    ].select(this.onBoard.bind(this));
+    return neighborsPos;
   };
     
   Array.prototype.select = function(check){
-    debugger
-    var selectedItems = []
+    var selectedItems = [];
     for(var i = 0; i < this.length; i++){
       if(check(this[i])){
         selectedItems.push(this[i]);
@@ -86,42 +90,62 @@
     return selectedItems;
   };
   
-  function onBoard(position){
+  Board.prototype.onBoard = function(position){
     if(position[0] >= 0 && position[0] < this.width && position[1] >= 0 && position[1] < this.height){
       return true;
     }
     return false;
-  }
+  };
   
-    // def on_board?(pos)
-  //     (0...@height).cover?(pos.first) && (0...@width).cover?(pos.last)
+  Board.prototype.neighborBombCount = function(position){
+    var neighbors = this.neighbors(position);
+    var count = 0;
+    for(var i = 0; i < neighbors.length; i++){
+      if(this.tiles[neighbors[i][0]][neighbors[i][1]].isBomb()){
+        count++;
+      }
+    }
+    return count;
+  };
+  
+  Board.prototype.setFlag = function(position){
+    var tile = this.tiles[position[0]][position[1]];
+    if(!tile.revealed){
+      tile.setFlagged();
+      tile.setMark('flagged')
+    }
+  };
+  
+  
+  Board.prototype.revealTile = function(position){
+    var tile = this.tiles[position[0]][position[1]];
+    if(!tile.flagged && !tile.revealed){
+      tile.setRevealed();
+      if(tile.isBomb()){
+        tile.setMark('activatedBomb');
+      } else {
+        var count = this.neighborBombCount(position)
+        tile.setMark('revealed-' + count.toString());
+      }
+    }
+  };
+  
+  //   def reveal(pos)
+  //     tile = @tiles[pos.first][pos.last]
+  //     tile.set_revealed unless tile.flagged || tile.revealed
+  //     if tile.revealed && tile.bombed?
+  //       nil
+  //     elsif neighbor_bomb_count(pos) == 0
+  //       neighbors(pos).each do |neighbor|
+  //         neighboring_tile = @tiles[neighbor.first][neighbor.last]
+  //         unless neighboring_tile.revealed || neighboring_tile.flagged
+  //           reveal(neighbor)
+  //         end
+  //       end
+  //       get_symbol(pos)
+  //     end
   //   end
-
-  // def neighbors(pos)
-  //     first, last = pos
-  //     neighbors_pos = [[first - 1, last - 1],
-  //                      [first - 1, last],
-  //                      [first - 1, last + 1],
-  //                      [first, last - 1],
-  //                      [first, last + 1],
-  //                      [first + 1, last - 1],
-  //                      [first + 1, last],
-  //                      [first + 1, last + 1]
-  //                     ]
-  //     neighbors_pos.select { |position| on_board?(position) }
-  //   end
   
-  
-  // Board.prototype.display = function(){
-  //   var container = document.getElementById('gameContainer');
-  //   debugger
-  //   for(var i = 0; i < this.tiles.length; i++){
-  //     var row = this.tiles[i];
-  //     for(var j = 0; j < row.length; j++){
-  //       container.setAttribute(row[j].mark);      
-  //     }
-  //   }
-  // };
   
 })(this);
 // 
@@ -181,9 +205,7 @@
 //     (0...@height).cover?(pos.first) && (0...@width).cover?(pos.last)
 //   end
 // 
-//   def neighbor_bomb_count(pos)
-//     neighbors(pos).select{ |pos| @tiles[pos.first][pos.last].bombed? }.count
-//   end
+
 // 
 //   def reveal(pos)
 //     tile = @tiles[pos.first][pos.last]
@@ -201,9 +223,6 @@
 //     end
 //   end
 // 
-//   def flag(pos)
-//     tile = @tiles[pos.first][pos.last]
-//     tile.set_flagged unless tile.revealed
-//   end
+
 // 
 // end
