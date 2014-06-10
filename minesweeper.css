@@ -3,8 +3,10 @@ body{
   width: 100%;
 }
 #gameContainer{
-  padding-top: 30px;
-  margin: 0 auto;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: auto;
   width: 480px;
 }
 
@@ -16,8 +18,8 @@ body{
 }
 
 .rowEnd{
-  float: clear;
-  height: 16px;
+  display: block;
+  margin: 0px;
 }
 
 .flagged{
