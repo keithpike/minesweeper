@@ -2,12 +2,40 @@
 body{
   width: 100%;
 }
+
 #gameContainer{
-  margin-top: 30px;
+  margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
   overflow: auto;
   width: 480px;
+}
+
+#resetButton{
+  background-image: url('icons.gif');
+  margin: 0 auto;
+  height: 26px;
+  width: 26px;
+}
+
+.winFace{
+  background-position: -104px -55px;
+}
+
+.loseFace{
+  background-position: -78px -55px;
+}
+
+.dangerFace{
+  background-position: -52px -55px;
+}
+
+.normalFace{
+  background-position: 0px -55px;
+}
+
+.pressedFace{
+  background-position: -26px -55px;
 }
 
 .tile{
